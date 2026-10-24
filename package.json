@@ -1,0 +1,15 @@
+{
+  "name": "full-stack-practicals-monorepo",
+  "version": "1.0.0",
+  "description": "Full Stack React + Node.js + Express + MongoDB Lab Practicals (Practicals 1 to 6)",
+  "scripts": {
+    "dev": "npm run dev --prefix student-portfolio",
+    "frontend": "npm run dev --prefix student-portfolio",
+    "backend": "npm start --prefix task-manager-api",
+    "start": "npm run dev --prefix student-portfolio",
+    "test:api": "powershell -ExecutionPolicy Bypass -File task-manager-api/test_api.ps1"
+  },
+  "keywords": ["react", "vite", "express", "mongodb", "mongoose", "fullstack"],
+  "author": "Student",
+  "license": "ISC"
+}

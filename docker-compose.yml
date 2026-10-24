@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  # 1. MongoDB Database Container
+  mongodb:
+    image: mongo:latest
+    container_name: awdf-mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: taskmanager_db
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - app-network
+
+  # 2. Node.js + Express REST API Backend Container
+  backend:
+    build:
+      context: ./task-manager-api
+      dockerfile: Dockerfile
+    container_name: awdf-backend
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - MONGO_URI=mongodb://mongodb:27017/taskmanager_db
+      - JWT_SECRET=supersecretjwtkey_practical7_awf_2026
+    depends_on:
+      - mongodb
+    networks:
+      - app-network
+
+  # 3. React + Vite Frontend Container
+  frontend:
+    build:
+      context: ./student-portfolio
+      dockerfile: Dockerfile
+    container_name: awdf-frontend
+    restart: always
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+# Persistent Named Volumes for Database Records
+volumes:
+  mongo-data:
+    driver: local
+
+# Isolated Bridge Network for Inter-Container Communication
+networks:
+  app-network:
+    driver: bridge
